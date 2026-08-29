@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ambrose — Boutique &amp; Luxury</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#FAF6EC; --paper:#FFFFFF; --beige:#E7DFC9; --beige-2:#F1EBDA;
+  --ink:#1B1712; --ink-soft:#5B5445;
+  --gold:#AD8A3D; --gold-light:#C7A758; --gold-pale:#E9DAB0;
+  --line: rgba(173,138,61,0.28); --line-soft: rgba(27,23,18,0.10);
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+html{scroll-behavior:smooth;}
+body{ background:var(--cream); color:var(--ink); font-family:'Work Sans',sans-serif; line-height:1.6; -webkit-font-smoothing:antialiased; }
+a{color:inherit; text-decoration:none;}
+button{font-family:inherit; cursor:pointer; background:none; border:none;}
+input,textarea{font-family:inherit; font-size:0.95rem;}
+::selection{ background:var(--gold-pale); color:var(--ink); }
+:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+.eyebrow{ font-weight:600; font-size:0.7rem; letter-spacing:0.26em; text-transform:uppercase; color:var(--gold); }
+h1,h2,h3,h4{ font-family:'Cormorant Garamond',serif; font-weight:600; color:var(--ink); }
+.italic{ font-style:italic; font-weight:500; color:var(--gold); }
+.wrap{ max-width:1200px; margin:0 auto; padding:0 clamp(1.25rem,4vw,3rem); }
+section{ padding:clamp(2rem,4vw,3rem) 0; }
+.btn{ display:inline-flex; align-items:center; justify-content:center; gap:0.5rem; padding:0.9rem 1.9rem; font-size:0.76rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; border:1px solid var(--ink); transition:all .25s ease; white-space:nowrap; }
+.btn-dark{ background:var(--ink); color:var(--cream); }
+.btn-dark:hover{ background:var(--gold); border-color:var(--gold); color:var(--ink); transform:translateY(-1px); }
+.btn-outline{ background:transparent; color:var(--ink); }
+.btn-outline:hover{ background:var(--ink); color:var(--cream); transform:translateY(-1px); }
+.sec-head{ text-align:center; max-width:580px; margin:0 auto clamp(1.2rem,3vw,1.8rem); }
+.sec-head h2{ font-size:clamp(1.6rem,3.2vw,2.1rem); margin-top:0.4rem; }
+.sec-head p{ color:var(--ink-soft); margin-top:0.5rem; font-size:0.92rem; }
+.reveal{ opacity:0; transform:translateY(18px); transition:opacity .8s ease, transform .8s ease; }
+.reveal.is-visible{ opacity:1; transform:translateY(0); }
+@media (prefers-reduced-motion: reduce){ .reveal{ opacity:1; transform:none; transition:none; } }
+
+.sprite{ position:absolute; width:0; height:0; overflow:hidden; }
+
+header.site-nav{ position:sticky; top:0; z-index:80; background:rgba(250,246,236,0.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line-soft); }
+.nav-row{ display:flex; align-items:center; justify-content:space-between; padding:0.85rem clamp(1.25rem,4vw,3rem); }
+.logo{ display:flex; flex-direction:column; line-height:1; }
+.logo .lg-main{ font-family:'Cormorant Garamond',serif; font-weight:600; font-size:1.5rem; letter-spacing:0.04em; }
+.logo .lg-sub{ font-size:0.56rem; letter-spacing:0.28em; text-transform:uppercase; color:var(--ink-soft); margin-top:3px; }
+.nav-links{ display:flex; gap:2.2rem; }
+.nav-links a{ font-size:0.78rem; letter-spacing:0.05em; text-transform:uppercase; color:var(--ink-soft); transition:color .2s ease; }
+.nav-links a:hover{ color:var(--gold); }
+.nav-cta{ border:1px solid var(--ink); padding:0.55rem 1.2rem; font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase; }
+.nav-cta:hover{ background:var(--ink); color:var(--cream); }
+.hamburger{ display:none; width:24px; height:18px; position:relative; }
+.hamburger span{ position:absolute; left:0; right:0; height:1.5px; background:var(--ink); transition:all .25s ease; }
+.hamburger span:nth-child(1){ top:0; } .hamburger span:nth-child(2){ top:8px; } .hamburger span:nth-child(3){ top:16px; }
+.hamburger.open span:nth-child(1){ top:8px; transform:rotate(45deg); }
+.hamburger.open span:nth-child(2){ opacity:0; }
+.hamburger.open span:nth-child(3){ top:8px; transform:rotate(-45deg); }
+.mobile-panel{ display:none; flex-direction:column; border-top:1px solid var(--line-soft); }
+.mobile-panel a{ padding:1rem clamp(1.25rem,4vw,3rem); font-size:0.85rem; letter-spacing:0.05em; text-transform:uppercase; border-bottom:1px solid var(--line-soft); color:var(--ink-soft); }
+.mobile-panel.show{ display:flex; }
+@media (max-width:860px){ .nav-links{ display:none; } .hamburger{ display:block; } }
+
+.hero{ display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:clamp(1.4rem,4vw,2.6rem); padding-top:clamp(1.6rem,4vw,2.4rem); }
+@media (max-width:860px){ .hero{ grid-template-columns:1fr; } }
+.hero h1{ font-size:clamp(2.2rem,5vw,3.4rem); line-height:1.03; margin-top:0.6rem; }
+.hero p.desc{ margin-top:0.8rem; max-width:420px; color:var(--ink-soft); }
+.hero-ctas{ margin-top:1.2rem; display:flex; gap:0.8rem; flex-wrap:wrap; }
+.hero-frame{ padding:12px; border:1px solid var(--line); }
+.hero-frame .inner{ aspect-ratio:4/5; overflow:hidden; background:linear-gradient(155deg,var(--beige-2),var(--beige)); display:flex; align-items:center; justify-content:center; }
+.hero-frame .inner svg{ width:44%; height:44%; color:var(--gold); }
+.plaque{ margin-top:0.5rem; display:flex; justify-content:space-between; font-size:0.66rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-soft); }
+.plaque .fig{ color:var(--gold); }
+
+.cat-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:0.7rem; }
+@media (max-width:900px){ .cat-grid{ grid-template-columns:repeat(4,1fr); } }
+@media (max-width:520px){ .cat-grid{ grid-template-columns:repeat(2,1fr); } }
+.cat-tile{ border:1px solid var(--line-soft); background:var(--paper); padding:0.9rem 0.6rem; text-align:center; transition:all .25s ease; }
+.cat-tile:hover, .cat-tile.active{ border-color:var(--gold); transform:translateY(-3px); }
+.cat-tile svg{ width:26px; height:26px; color:var(--gold); margin:0 auto 0.5rem; }
+.cat-tile span{ font-size:0.74rem; letter-spacing:0.03em; }
+.cat-tile.unavailable-cat{ opacity:0.65; }
+.cat-tile.unavailable-cat svg{ opacity:0.6; }
+.cat-tile small{ display:block; margin-top:0.3rem; font-size:0.6rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-soft); }
+
+.chip-row{ display:flex; gap:0.5rem; flex-wrap:wrap; justify-content:center; margin-bottom:1.3rem; }
+.chip{ border:1px solid var(--line-soft); padding:0.55rem 1.1rem; font-size:0.75rem; letter-spacing:0.04em; text-transform:uppercase; transition:all .2s ease; }
+.chip.active{ background:var(--ink); border-color:var(--ink); color:var(--cream); }
+.chip:hover{ border-color:var(--gold); }
+
+.prod-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; }
+@media (max-width:980px){ .prod-grid{ grid-template-columns:repeat(3,1fr); } }
+@media (max-width:700px){ .prod-grid{ grid-template-columns:repeat(2,1fr); } }
+.p-card{ background:var(--paper); border:1px solid var(--line-soft); display:flex; flex-direction:column; transition:all .25s ease; position:relative; }
+.p-card:hover{ border-color:var(--gold); box-shadow:0 14px 30px rgba(27,23,18,0.07); }
+.p-card.hidden{ display:none; }
+.p-thumb{ aspect-ratio:4/5; background:linear-gradient(160deg,var(--beige-2),var(--beige)); position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+.p-thumb svg{ width:50%; height:50%; color:var(--gold); }
+.p-thumb .sketch-tag{ position:absolute; bottom:0.55rem; left:0.55rem; font-size:0.54rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-soft); background:rgba(250,246,236,0.85); padding:0.26rem 0.5rem; }
+.p-badge{ position:absolute; top:0.65rem; left:0.65rem; font-size:0.58rem; letter-spacing:0.1em; text-transform:uppercase; font-weight:700; padding:0.3rem 0.55rem; background:var(--ink); color:var(--cream); z-index:2; }
+.p-badge.new{ background:var(--gold); color:var(--ink); }
+.p-badge.unavail{ background:var(--ink-soft); color:var(--cream); }
+.p-card.unavailable{ opacity:0.6; }
+.p-card.unavailable .p-thumb{ filter:grayscale(0.5); }
+.p-enquire.disabled{ color:var(--ink-soft); cursor:default; }
+.p-info{ padding:0.75rem 0.85rem 0.85rem; display:flex; flex-direction:column; gap:0.25rem; flex-grow:1; }
+.p-cat{ font-size:0.63rem; letter-spacing:0.13em; text-transform:uppercase; color:var(--ink-soft); }
+.p-name{ font-family:'Cormorant Garamond',serif; font-size:1.12rem; font-weight:600; }
+.p-price{ color:var(--gold); font-weight:600; font-size:0.9rem; }
+.p-enquire{ margin-top:0.45rem; font-size:0.7rem; letter-spacing:0.09em; text-transform:uppercase; border-top:1px solid var(--line-soft); padding-top:0.45rem; text-align:center; }
+.p-enquire:hover{ color:var(--gold); }
+.atelier-note{ text-align:center; color:var(--ink-soft); font-size:0.78rem; margin-top:1rem; }
+.atelier-note em{ color:var(--gold); font-style:italic; }
+
+.signature{ background:var(--paper); border-top:1px solid var(--line-soft); border-bottom:1px solid var(--line-soft); }
+.sig-grid{ display:grid; grid-template-columns:0.85fr 1fr; gap:clamp(1.5rem,4vw,2.8rem); align-items:center; }
+@media (max-width:860px){ .sig-grid{ grid-template-columns:1fr; } }
+.sig-frame{ padding:14px; border:1px solid var(--line); max-width:400px; }
+.sig-frame .inner{ aspect-ratio:1/1; overflow:hidden; background:linear-gradient(160deg,var(--beige-2),var(--beige)); display:flex; align-items:center; justify-content:center; }
+.sig-frame .inner svg{ width:44%; height:44%; color:var(--gold); }
+.sig-copy h2{ font-size:clamp(1.6rem,3.2vw,2.1rem); margin-bottom:0.6rem; }
+.sig-copy p{ color:var(--ink-soft); max-width:420px; margin-bottom:1rem; }
+.price-tag{ display:inline-flex; align-items:center; gap:0.5rem; font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.05rem; color:var(--gold); margin-bottom:1rem; }
+.price-tag .dot{ width:5px; height:5px; border-radius:50%; background:var(--gold); }
+
+.about{ background:var(--beige-2); border-bottom:1px solid var(--line-soft); }
+.about-grid{ display:grid; grid-template-columns:0.9fr 1.1fr; gap:clamp(1.5rem,4vw,2.8rem); align-items:center; }
+@media (max-width:860px){ .about-grid{ grid-template-columns:1fr; } }
+.about-art{ aspect-ratio:4/5; background:var(--paper); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; }
+.about-art svg{ width:44%; height:44%; color:var(--gold); }
+.about h2{ font-size:clamp(1.6rem,3.2vw,2.1rem); margin-bottom:0.6rem; }
+.about p{ color:var(--ink-soft); max-width:520px; margin-bottom:0.6rem; }
+
+.why-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1.1rem; text-align:center; }
+@media (max-width:760px){ .why-grid{ grid-template-columns:repeat(2,1fr); } }
+.why-item svg{ width:26px; height:26px; color:var(--gold); margin:0 auto 0.6rem; }
+.why-item h4{ font-size:0.96rem; font-weight:600; margin-bottom:0.3rem; }
+.why-item p{ color:var(--ink-soft); font-size:0.84rem; }
+
+.reviews{ background:var(--paper); border-top:1px solid var(--line-soft); border-bottom:1px solid var(--line-soft); }
+.rev-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
+@media (max-width:860px){ .rev-grid{ grid-template-columns:1fr; } }
+.rev-card{ background:var(--cream); border:1px solid var(--line-soft); padding:1.2rem; }
+.rev-stars{ color:var(--gold); font-size:0.85rem; letter-spacing:0.15em; margin-bottom:0.5rem; }
+.rev-card p{ color:var(--ink-soft); font-size:0.89rem; margin-bottom:0.6rem; }
+.rev-name{ font-size:0.78rem; font-weight:600; }
+
+.insta-grid{ display:grid; grid-template-columns:repeat(6,1fr); gap:0.5rem; }
+@media (max-width:760px){ .insta-grid{ grid-template-columns:repeat(3,1fr); } }
+.insta-tile{ aspect-ratio:1/1; background:linear-gradient(155deg,var(--beige-2),var(--beige)); display:flex; align-items:center; justify-content:center; }
+.insta-tile svg{ width:32%; height:32%; color:var(--gold); opacity:0.8; }
+.insta-cta{ text-align:center; margin-top:1rem; }
+
+.newsletter{ background:var(--ink); color:var(--cream); text-align:center; }
+.newsletter h2{ color:var(--cream); font-size:clamp(1.5rem,3.2vw,1.9rem); }
+.newsletter p{ color:#C9C2B2; margin-top:0.4rem; }
+.nl-form{ margin-top:1rem; display:flex; gap:0.7rem; max-width:420px; margin-left:auto; margin-right:auto; flex-wrap:wrap; justify-content:center; }
+.nl-form input{ flex:1; min-width:200px; padding:0.9rem 1.1rem; background:transparent; border:1px solid #4A4436; color:var(--cream); }
+.nl-form input::placeholder{ color:#8B8471; }
+.nl-msg{ margin-top:1rem; font-size:0.82rem; color:var(--gold-light); min-height:1.2em; }
+
+.contact{ background:var(--beige-2); }
+.contact-grid{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(1.6rem,4vw,2.6rem); }
+@media (max-width:860px){ .contact-grid{ grid-template-columns:1fr; } }
+.c-item{ display:flex; gap:0.8rem; margin-bottom:0.95rem; }
+.c-badge{ width:40px; height:40px; border:1px solid var(--gold); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.c-badge svg{ width:17px; height:17px; color:var(--gold); }
+.c-item h4{ font-size:0.8rem; letter-spacing:0.05em; text-transform:uppercase; margin-bottom:0.25rem; font-weight:600; }
+.c-item p, .c-item a{ color:var(--ink-soft); font-size:0.88rem; }
+.map-embed{ margin-top:1rem; border:1px solid var(--line-soft); aspect-ratio:16/10; overflow:hidden; }
+.map-embed iframe{ width:100%; height:100%; border:0; filter:grayscale(0.15) contrast(1.02); }
+.form-group{ margin-bottom:0.75rem; }
+.form-group label{ display:block; font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; font-weight:600; margin-bottom:0.5rem; }
+.form-group input, .form-group textarea{ width:100%; padding:0.85rem 1rem; border:1px solid var(--line-soft); background:var(--paper); outline:none; transition:border-color .2s ease; }
+.form-group input:focus, .form-group textarea:focus{ border-color:var(--gold); }
+.contact-msg{ margin-top:1rem; font-size:0.84rem; color:var(--gold); min-height:1.2em; }
+
+footer{ background:var(--paper); border-top:1px solid var(--line-soft); padding-top:clamp(1.6rem,3.5vw,2.2rem); }
+.foot-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1.2fr; gap:1.4rem; padding-bottom:1.4rem; }
+@media (max-width:760px){ .foot-grid{ grid-template-columns:1fr 1fr; } }
+.foot-col h5{ font-size:0.7rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:0.9rem; }
+.foot-col a, .foot-col p, .foot-col button{ display:block; font-size:0.84rem; color:var(--ink-soft); margin-bottom:0.55rem; text-align:left; }
+.foot-col a:hover, .foot-col button:hover{ color:var(--gold); }
+.foot-logo{ font-family:'Cormorant Garamond',serif; font-size:1.35rem; font-weight:600; margin-bottom:0.7rem; }
+.foot-bottom{ border-top:1px solid var(--line-soft); padding:0.9rem clamp(1.25rem,4vw,3rem); display:flex; justify-content:space-between; flex-wrap:wrap; gap:0.7rem; font-size:0.7rem; color:var(--ink-soft); }
+
+.wa-float{ position:fixed; bottom:1.5rem; right:1.5rem; z-index:70; width:54px; height:54px; border-radius:50%; background:var(--gold); color:var(--ink); display:flex; align-items:center; justify-content:center; box-shadow:0 10px 26px rgba(27,23,18,0.28); transition:transform .2s ease; }
+.wa-float:hover{ transform:scale(1.08); }
+.wa-float svg{ width:24px; height:24px; }
+.toast{ position:fixed; bottom:1.6rem; left:50%; transform:translateX(-50%) translateY(120%); background:var(--ink); color:var(--cream); padding:0.9rem 1.6rem; font-size:0.85rem; z-index:90; transition:transform .35s ease; box-shadow:0 12px 30px rgba(0,0,0,0.25); max-width:88vw; text-align:center; }
+.toast.show{ transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<svg class="sprite" aria-hidden="true">
+<defs>
+<symbol id="ic-shirt" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10 L26 6 L32 12 L38 6 L44 10 L50 18 L44 22 L44 54 L20 54 L20 22 L14 18 Z"/></symbol>
+<symbol id="ic-trousers" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 8 H42 L44 30 L50 56 H40 L34 34 L30 34 L26 56 H16 L22 30 Z"/></symbol>
+<symbol id="ic-coat" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8 L26 4 L32 10 L38 4 L46 8 L54 20 L46 26 L46 60 L18 60 L18 26 L10 20 Z"/></symbol>
+<symbol id="ic-dress" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M24 6 L32 10 L40 6 L38 22 L48 58 H16 L26 22 Z"/></symbol>
+<symbol id="ic-blazer" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 8 L28 4 L32 12 L36 4 L44 8 L52 18 L45 24 L48 56 H16 L19 24 L12 18 Z"/></symbol>
+<symbol id="ic-skirt" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 H42 L52 54 H12 Z"/></symbol>
+<symbol id="ic-sweater" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12 Q32 4 44 12 L52 20 L46 26 L46 56 H18 L18 26 L12 20 Z"/><path d="M26 12 Q32 18 38 12"/></symbol>
+<symbol id="ic-belt" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="28" width="52" height="8" rx="1"/><rect x="26" y="22" width="12" height="20" rx="2"/></symbol>
+<symbol id="ic-bag" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 24 h36 v30 a4 4 0 0 1-4 4 H18 a4 4 0 0 1-4-4 Z"/><path d="M22 24 v-6 a10 10 0 0 1 20 0 v6"/></symbol>
+<symbol id="ic-shoe" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 46c0-7 5-11 12-12l16-4c7-2 13 0 17 6l4 5c2 3 0 6-3 6l-42 3c-3 0-4-2-4-4Z"/><path d="M18 34l4-10c1-3 4-4 6-2l4 6"/></symbol>
+<symbol id="ic-hoodie" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 16 Q32 6 44 16 L52 24 L46 30 L46 58 H18 L18 30 L12 24 Z"/><path d="M23 16 Q32 8 41 16 Q32 24 23 16Z"/><path d="M28 22 v6 M36 22 v6"/><rect x="24" y="42" width="16" height="9" rx="2"/></symbol>
+<symbol id="ic-unisex" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M24 8 L20 14 L14 18 L20 24 L24 20 V54 H40 V20 L44 24 L50 18 L44 14 L40 8 Q32 14 24 8Z"/></symbol>
+<symbol id="ic-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s-7-6.1-7-11.5A7 7 0 0 1 19 9.5C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.4"/></symbol>
+<symbol id="ic-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 5c0-.6.4-1 1-1h3l2 5-2 1.5a11 11 0 0 0 5.5 5.5L15 14l5 2v3c0 .6-.4 1-1 1C10.5 20 4 13.5 4 5z"/></symbol>
+<symbol id="ic-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></symbol>
+<symbol id="ic-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></symbol>
+<symbol id="ic-wa" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.9 9.9 0 0 0 4.75 1.21h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.14.82.84-3.06-.2-.31a8.23 8.23 0 0 1-1.26-4.36c0-4.55 3.7-8.25 8.26-8.25a8.2 8.2 0 0 1 8.24 8.25c0 4.55-3.7 8.24-8.24 8.24zm4.52-6.19c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.13-.17.25-.64.81-.78.97-.14.17-.29.19-.53.06-.25-.12-1.04-.38-1.99-1.22-.73-.66-1.23-1.46-1.37-1.71-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.15.16-.25.24-.42.08-.17.04-.31-.02-.44-.06-.12-.56-1.36-.77-1.86-.2-.48-.4-.42-.56-.43-.14-.01-.31-.01-.48-.01-.17 0-.44.06-.67.31-.23.25-.87.85-.87 2.08s.89 2.41 1.02 2.58c.12.17 1.75 2.67 4.24 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.55.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.14-1.18-.06-.11-.23-.17-.48-.29z"/></symbol>
+<symbol id="ic-gem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 8l6-5 6 5-6 13z"/><path d="M6 8h12M9 8l3 13 3-13"/></symbol>
+<symbol id="ic-truck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7h11v9H3z"/><path d="M14 11h4l3 3v2h-7z"/><circle cx="7" cy="18" r="1.6"/><circle cx="18" cy="18" r="1.6"/></symbol>
+<symbol id="ic-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20s-7-4.35-9.5-8.5C.5 7.5 3 4 6.5 4c2 0 3.5 1.2 4.5 2.7C12 5.2 13.5 4 15.5 4 19 4 21.5 7.5 19.5 11.5 17 15.65 12 20 12 20z"/></symbol>
+<symbol id="ic-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3-5.6-3.4-5.6 3.4 1.4-6.3-4.8-4.3 6.4-.6z"/></symbol>
+<symbol id="ic-tiktok" viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.82c-.9-.85-1.4-2-1.5-3.32h-3.09v13.09c0 1.56-1.27 2.83-2.83 2.83a2.83 2.83 0 0 1 0-5.66c.26 0 .51.03.75.1V9.66a6.1 6.1 0 0 0-.75-.05C5.6 9.61 3 12.21 3 15.7s2.6 6.1 6.18 6.1 6.18-2.6 6.18-6.1V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3c-1.02-.01-2.02-.36-3.06-1.48z"/></symbol>
+</defs>
+</svg>
+
+<header class="site-nav">
+  <div class="nav-row">
+    <a class="logo" href="#top">
+      <span class="lg-main">AMBROSE</span>
+      <span class="lg-sub">Boutique &amp; Luxury</span>
+    </a>
+    <nav class="nav-links">
+      <a href="#collections">Shop</a>
+      <a href="#signature">Signature</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="nav-cta" href="https://wa.me/2348108256479?text=Hello%20Ambrose%2C%20I%27d%20like%20to%20ask%20about%20a%20piece." target="_blank" rel="noopener">WhatsApp</a>
+    <div class="hamburger" id="hamburger" onclick="toggleMobileNav()"><span></span><span></span><span></span></div>
+  </div>
+  <div class="mobile-panel" id="mobilePanel">
+    <a href="#collections" onclick="closeMobileNav()">Shop</a>
+    <a href="#signature" onclick="closeMobileNav()">Signature</a>
+    <a href="#about" onclick="closeMobileNav()">About</a>
+    <a href="#contact" onclick="closeMobileNav()">Contact</a>
+  </div>
+</header>
+
+<div id="top"></div>
+
+<header class="hero wrap">
+  <div>
+    <p class="eyebrow">Boutique &amp; Luxury · Ibadan</p>
+    <h1>Style That<br>Speaks <span class="italic">For You</span></h1>
+    <p class="desc">A considered edit of menswear, womenswear and accessories, hand-picked in Dugbe and held to one standard: does it earn its place on the shelf.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-dark" href="#collections">Shop Collection</a>
+      <a class="btn btn-outline" href="#collections" onclick="setFilter('new')">Explore New Arrivals</a>
+    </div>
+  </div>
+  <div>
+    <div class="hero-frame"><div class="inner"><svg viewBox="0 0 64 64"><use href="#ic-bag"/></svg></div></div>
+    <div class="plaque"><span class="fig">Fig. 01</span><span>Monogram Weekender — Black / Gold</span></div>
+  </div>
+</header>
+
+<section class="wrap">
+  <div class="sec-head">
+    <p class="eyebrow">Featured Categories</p>
+    <h2>Shop by category</h2>
+  </div>
+  <div class="cat-grid">
+    <button class="cat-tile" onclick="setFilter('Men\'s Wear')"><svg><use href="#ic-coat"/></svg><span>Men's Wear</span></button>
+    <button class="cat-tile unavailable-cat" onclick="setFilter('Women\'s Wear')"><svg><use href="#ic-blazer"/></svg><span>Women's Wear</span><small>Coming Soon</small></button>
+    <button class="cat-tile unavailable-cat" onclick="setFilter('Dresses')"><svg><use href="#ic-dress"/></svg><span>Dresses</span><small>Coming Soon</small></button>
+    <button class="cat-tile" onclick="setFilter('Shirts & Tops')"><svg><use href="#ic-shirt"/></svg><span>Shirts &amp; Tops</span></button>
+    <button class="cat-tile" onclick="setFilter('Trousers')"><svg><use href="#ic-trousers"/></svg><span>Trousers</span></button>
+    <button class="cat-tile" onclick="setFilter('Accessories')"><svg><use href="#ic-bag"/></svg><span>Accessories</span></button>
+    <button class="cat-tile" onclick="setFilter('Hoodie')"><svg><use href="#ic-hoodie"/></svg><span>Hoodie</span></button>
+    <button class="cat-tile" onclick="setFilter('Unisex Wears')"><svg><use href="#ic-unisex"/></svg><span>Unisex Wears</span></button>
+  </div>
+</section>
+
+<section class="wrap reveal" id="collections">
+  <div class="sec-head">
+    <p class="eyebrow">The Edit</p>
+    <h2>A sample of the collection</h2>
+    <p>Twelve pieces from the current rail — filter by category, or take it all in.</p>
+  </div>
+  <div class="chip-row" id="chipRow">
+    <button class="chip active" data-chip="all" onclick="setFilter('all')">All</button>
+    <button class="chip" data-chip="Men's Wear" onclick="setFilter('Men\'s Wear')">Men's Wear</button>
+    <button class="chip" data-chip="Women's Wear" onclick="setFilter('Women\'s Wear')">Women's Wear</button>
+    <button class="chip" data-chip="Dresses" onclick="setFilter('Dresses')">Dresses</button>
+    <button class="chip" data-chip="Shirts & Tops" onclick="setFilter('Shirts & Tops')">Shirts &amp; Tops</button>
+    <button class="chip" data-chip="Trousers" onclick="setFilter('Trousers')">Trousers</button>
+    <button class="chip" data-chip="Accessories" onclick="setFilter('Accessories')">Accessories</button>
+    <button class="chip" data-chip="Hoodie" onclick="setFilter('Hoodie')">Hoodie</button>
+    <button class="chip" data-chip="Unisex Wears" onclick="setFilter('Unisex Wears')">Unisex Wears</button>
+    <button class="chip" data-chip="new" onclick="setFilter('new')">New</button>
+    <button class="chip" data-chip="Best Seller" onclick="setFilter('Best Seller')">Best Sellers</button>
+  </div>
+  <div class="prod-grid" id="prodGrid"></div>
+  <p class="atelier-note">Pieces shown in <em>gold line sketch</em> are in the current rail awaiting fresh photography — enquire on WhatsApp for real photos and stock.</p>
+</section>
+
+<section class="signature reveal" id="signature">
+  <div class="wrap sig-grid">
+    <div class="sig-frame"><div class="inner"><svg viewBox="0 0 64 64"><use href="#ic-bag"/></svg></div></div>
+    <div class="sig-copy">
+      <p class="eyebrow">This Week's Signature Piece</p>
+      <h2>The Monogram Weekender</h2>
+      <div class="price-tag"><span class="dot"></span>₦95,000</div>
+      <p>Black check canvas, gold hardware, and a shape built for the overhead bin, not the back of a wardrobe. One piece, in-store now — reserve yours before it's gone.</p>
+      <a class="btn btn-dark" href="https://wa.me/2348108256479?text=Hello%2C%20I%27m%20interested%20in%20the%20Monogram%20Weekender%20bag." target="_blank" rel="noopener">Reserve This Piece</a>
+    </div>
+  </div>
+</section>
+
+<section class="about reveal" id="about">
+  <div class="wrap about-grid">
+    <div class="about-art"><svg viewBox="0 0 64 64"><use href="#ic-gem"/></svg></div>
+    <div>
+      <p class="eyebrow">About The Brand</p>
+      <h2>Luxury, checked twice before it reaches you</h2>
+      <p>Ambrose sits inside the shopping complex at Ogo Oluwa, Dugbe — a small floor with a simple rule: if we wouldn't carry it ourselves, it doesn't go on the shelf. Every piece is chosen for construction and character, not just the label.</p>
+      <p>Your satisfaction is our priority — that's not a slogan here, it's the return policy.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-head">
+    <p class="eyebrow">Why Shop With Us</p>
+    <h2>What you can expect</h2>
+  </div>
+  <div class="why-grid">
+    <div class="why-item"><svg viewBox="0 0 24 24"><use href="#ic-gem"/></svg><h4>Quality Materials</h4><p>Fabric and hardware checked before anything is listed.</p></div>
+    <div class="why-item"><svg viewBox="0 0 24 24"><use href="#ic-star"/></svg><h4>Carefully Selected Styles</h4><p>Nothing here is filler — every rail is curated in-house.</p></div>
+    <div class="why-item"><svg viewBox="0 0 24 24"><use href="#ic-truck"/></svg><h4>Fast Delivery</h4><p>Same-day dispatch within Ibadan, nationwide shipping beyond.</p></div>
+    <div class="why-item"><svg viewBox="0 0 24 24"><use href="#ic-heart"/></svg><h4>Excellent Service</h4><p>Real answers on WhatsApp — no chatbots, no runaround.</p></div>
+  </div>
+</section>
+
+<section class="reviews reveal">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Customer Reviews</p>
+      <h2>What people are saying</h2>
+    </div>
+    <div class="rev-grid">
+      <div class="rev-card"><div class="rev-stars">★★★★★</div><p>"Found a blazer I'd been hunting for everywhere else in Ibadan. Fit was perfect and the fabric felt genuinely premium."</p><div class="rev-name">Adaeze O.</div></div>
+      <div class="rev-card"><div class="rev-stars">★★★★★</div><p>"Ordered on WhatsApp, had it delivered same evening. The kind of service that makes you a regular."</p><div class="rev-name">Kunle B.</div></div>
+      <div class="rev-card"><div class="rev-stars">★★★★★</div><p>"The weekender bag is even better in person — gold hardware, real weight to it. Worth every naira."</p><div class="rev-name">Ifeoma A.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap reveal">
+  <div class="sec-head">
+    <p class="eyebrow">Follow The Edit</p>
+    <h2>@theambroseboutiqu</h2>
+  </div>
+  <div class="insta-grid">
+    <div class="insta-tile"><svg viewBox="0 0 24 24"><use href="#ic-tiktok"/></svg></div>
+    <div class="insta-tile"><svg viewBox="0 0 24 24"><use href="#ic-tiktok"/></svg></div>
+    <div class="insta-tile"><svg viewBox="0 0 24 24"><use href="#ic-tiktok"/></svg></div>
+    <div class="insta-tile"><svg viewBox="0 0 24 24"><use href="#ic-tiktok"/></svg></div>
+    <div class="insta-tile"><svg viewBox="0 0 24 24"><use href="#ic-tiktok"/></svg></div>
+    <div class="insta-tile"><svg viewBox="0 0 24 24"><use href="#ic-tiktok"/></svg></div>
+  </div>
+  <div class="insta-cta">
+    <a class="btn btn-outline" href="https://www.tiktok.com/@theambroseboutiqu?_r=1&_t=ZS-99HalN4XQ6W" target="_blank" rel="noopener">Follow on TikTok</a>
+    <p style="margin-top:1rem; font-size:0.85rem; color:var(--ink-soft);">If you want to check out more options, <a href="https://www.tiktok.com/@theambroseboutiqu?_r=1&_t=ZS-99HalN4XQ6W" target="_blank" rel="noopener" style="color:var(--gold); text-decoration:underline;">click here</a></p>
+  </div>
+</section>
+
+<section class="newsletter reveal">
+  <div class="wrap">
+    <h2>Get 10% Off Your First Order</h2>
+    <p>Join the list for new arrivals and early access to restocks.</p>
+    <form class="nl-form" onsubmit="return handleNewsletter(event)">
+      <input type="email" required placeholder="Your email address" id="nlEmail">
+      <button class="btn btn-gold-inline" type="submit" style="background:var(--gold); color:var(--ink); padding:0.9rem 1.6rem; font-size:0.76rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase;">Subscribe</button>
+    </form>
+    <p class="nl-msg" id="nlMsg"></p>
+  </div>
+</section>
+
+<section class="contact reveal" id="contact">
+  <div class="wrap contact-grid">
+    <div>
+      <p class="eyebrow">Visit Or Message Us</p>
+      <h2 style="font-size:clamp(1.9rem,3.6vw,2.5rem); margin:0.7rem 0 1.6rem;">Come see it in person</h2>
+      <div class="c-item"><div class="c-badge"><svg viewBox="0 0 24 24"><use href="#ic-pin"/></svg></div><div><h4>Location</h4><p>Shopping Complex, 28 Ogo Oluwa, Dugbe, Alawo, Ibadan 200212, Oyo State</p></div></div>
+      <div class="c-item"><div class="c-badge"><svg viewBox="0 0 24 24"><use href="#ic-phone"/></svg></div><div><h4>Call</h4><a href="tel:+2348108256479">0810 825 6479</a></div></div>
+      <div class="c-item"><div class="c-badge"><svg viewBox="0 0 24 24"><use href="#ic-wa"/></svg></div><div><h4>WhatsApp</h4><a href="https://wa.me/2348108256479" target="_blank" rel="noopener">+234 810 825 6479</a></div></div>
+      <div class="c-item"><div class="c-badge"><svg viewBox="0 0 24 24"><use href="#ic-mail"/></svg></div><div><h4>Email</h4><p>hello@ambroseboutique.ng <span style="opacity:0.6;">(sample — swap for your real address)</span></p></div></div>
+      <div class="c-item"><div class="c-badge"><svg viewBox="0 0 24 24"><use href="#ic-clock"/></svg></div><div><h4>Hours</h4><p>Mon – Sat · 9:00 AM – 7:00 PM<br><span style="opacity:0.6;">(sample hours — update to match yours)</span></p></div></div>
+      <div class="map-embed"><iframe loading="lazy" title="Ambrose Boutique location" src="https://www.google.com/maps?q=Shopping+Complex,+28+Ogo+Oluwa,+Dugbe,+Alawo,+Ibadan+200212,+Oyo+State,+Nigeria&output=embed"></iframe></div>
+    </div>
+    <div>
+      <form onsubmit="return handleContact(event)">
+        <div class="form-group"><label for="cName">Name</label><input id="cName" type="text" required></div>
+        <div class="form-group"><label for="cEmail">Email</label><input id="cEmail" type="email" required></div>
+        <div class="form-group"><label for="cMsg">Message</label><textarea id="cMsg" rows="5" required></textarea></div>
+        <button class="btn btn-dark" type="submit" style="width:100%;">Send Message</button>
+        <p class="contact-msg" id="contactMsg"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div class="foot-col">
+      <div class="foot-logo">AMBROSE</div>
+      <p>Boutique &amp; Luxury, Ibadan.<br>Your satisfaction is our priority.</p>
+    </div>
+    <div class="foot-col">
+      <h5>Quick Links</h5>
+      <a href="#collections">Shop</a>
+      <a href="#signature">Signature Piece</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="foot-col">
+      <h5>Categories</h5>
+      <button onclick="document.getElementById('collections').scrollIntoView(); setFilter('Men\'s Wear')">Men's Wear</button>
+      <button onclick="document.getElementById('collections').scrollIntoView(); setFilter('Women\'s Wear')">Women's Wear</button>
+      <button onclick="document.getElementById('collections').scrollIntoView(); setFilter('Accessories')">Accessories</button>
+    </div>
+    <div class="foot-col">
+      <h5>Store Info</h5>
+      <button onclick="showToast('Shipping & Returns page isn\'t part of this preview yet')">Shipping &amp; Returns</button>
+      <button onclick="showToast('Privacy Policy page isn\'t part of this preview yet')">Privacy Policy</button>
+      <button onclick="showToast('Terms & Conditions page isn\'t part of this preview yet')">Terms &amp; Conditions</button>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 Ambrose Boutique &amp; Luxury — one-page preview.</span>
+    <span>Shopping Complex, 28 Ogo Oluwa, Dugbe, Ibadan · 0810 825 6479</span>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/2348108256479?text=Hello%20Ambrose%2C%20I%27d%20like%20to%20ask%20about%20a%20piece." target="_blank" rel="noopener" aria-label="Message on WhatsApp"><svg viewBox="0 0 24 24"><use href="#ic-wa"/></svg></a>
+<div class="toast" id="toast"></div>
+
+<script>
+const PRODUCTS = [
+  {id:1, name:"Oxford Shirt, Ivory", cat:"Shirts & Tops", price:60000, icon:"ic-shirt", badge:null},
+  {id:2, name:"Slim Chinos, Camel", cat:"Trousers", price:22000, icon:"ic-trousers", badge:"Best Seller"},
+  {id:3, name:"Wool Overcoat, Charcoal", cat:"Men's Wear", price:65000, icon:"ic-coat", badge:"New"},
+  {id:4, name:"Silk Wrap Dress, Emerald", cat:"Dresses", price:38000, icon:"ic-dress", badge:null, available:false},
+  {id:5, name:"Tailored Blazer, Black", cat:"Women's Wear", price:45000, icon:"ic-blazer", badge:null, available:false},
+  {id:6, name:"Pleated Midi Skirt, Gold", cat:"Women's Wear", price:27500, icon:"ic-skirt", badge:null, available:false},
+  {id:7, name:"Cashmere Sweater, Cream", cat:"Shirts & Tops", price:60000, icon:"ic-sweater", badge:"Best Seller"},
+  {id:8, name:"Linen Shirt, White", cat:"Shirts & Tops", price:60000, icon:"ic-shirt", badge:"New"},
+  {id:9, name:"Satin Slip Dress, Black", cat:"Dresses", price:33000, icon:"ic-dress", badge:null, available:false},
+  {id:10, name:"Tailored Trousers, Navy", cat:"Trousers", price:24000, icon:"ic-trousers", badge:null},
+  {id:11, name:"Monogram Weekender", cat:"Accessories", price:95000, icon:"ic-bag", badge:"Best Seller"},
+  {id:12, name:"Leather Belt, Gold Buckle", cat:"Accessories", price:14000, icon:"ic-belt", badge:"New"},
+  {id:13, name:"Two-Tone Camo Shark Hoodie, Blue/Pink", cat:"Hoodie", price:40000, icon:"ic-hoodie", badge:"Best Seller"},
+  {id:14, name:"Two-Tone Camo Shark Hoodie, Black/Green", cat:"Hoodie", price:40000, icon:"ic-hoodie", badge:"New"},
+  {id:15, name:"Plaid Wide-Leg Trousers, Navy", cat:"Unisex Wears", price:23000, icon:"ic-trousers", badge:null},
+  {id:16, name:"Stagroup Graphic Hoodie & Sweatpants Set, Grey", cat:"Unisex Wears", price:35000, icon:"ic-hoodie", badge:"Best Seller"},
+  {id:17, name:"Plaid Wide-Leg Trousers, Burgundy", cat:"Unisex Wears", price:23000, icon:"ic-trousers", badge:"New"},
+  {id:18, name:"Panelled Wide-Leg Jeans, Grey Wash", cat:"Trousers", price:35000, icon:"ic-trousers", badge:"New"},
+  {id:19, name:"Patchwork Badge Wide-Leg Jeans, Light Blue", cat:"Trousers", price:35000, icon:"ic-trousers", badge:"Best Seller"},
+  {id:20, name:"Distressed Ripped Jeans, Blue", cat:"Trousers", price:35000, icon:"ic-trousers", badge:"New"},
+  {id:21, name:"Multi-Cross Graphic Tee, White", cat:"Shirts & Tops", price:27000, icon:"ic-shirt", badge:"New"},
+  {id:22, name:"Payphone Graphic Tee, Black", cat:"Shirts & Tops", price:27000, icon:"ic-shirt", badge:"Best Seller"},
+  {id:23, name:"Fingerprint Graphic Tee, Black", cat:"Shirts & Tops", price:27000, icon:"ic-shirt", badge:"New"},
+  {id:24, name:"Cross Graphic Tee, White", cat:"Shirts & Tops", price:27000, icon:"ic-shirt", badge:null},
+  {id:25, name:"Chunky Platform Penny Loafers, Black/White", cat:"Accessories", price:75000, icon:"ic-shoe", badge:"New"},
+  {id:26, name:"Monogram-Strap Tassel Loafers, Black", cat:"Accessories", price:75000, icon:"ic-shoe", badge:"Best Seller"},
+  {id:27, name:"V-Buckle Studded Loafers, Black", cat:"Accessories", price:75000, icon:"ic-shoe", badge:"New"},
+  {id:28, name:"Classic Side-Stripe Sneakers, Black/White", cat:"Accessories", price:75000, icon:"ic-shoe", badge:null}
+];
+
+function fmt(n){ return '₦' + n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+
+function renderProducts(){
+  const grid = document.getElementById('prodGrid');
+  grid.innerHTML = PRODUCTS.map(p => {
+    const isAvailable = p.available !== false;
+    return `
+    <div class="p-card ${isAvailable ? '' : 'unavailable'}" data-cat="${p.cat}" data-badge="${p.badge||''}">
+      <div class="p-thumb">
+        ${!isAvailable ? `<span class="p-badge unavail">Unavailable</span>` : (p.badge ? `<span class="p-badge ${p.badge==='New'?'new':''}">${p.badge}</span>` : '')}
+        <svg><use href="#${p.icon}"/></svg><span class="sketch-tag">Sketch</span>
+      </div>
+      <div class="p-info">
+        <span class="p-cat">${p.cat}</span>
+        <span class="p-name">${p.name}</span>
+        <span class="p-price">${fmt(p.price)}</span>
+        ${isAvailable
+          ? `<a class="p-enquire" href="https://wa.me/2348108256479?text=${encodeURIComponent('Hello, I\'m interested in the '+p.name+' ('+fmt(p.price)+').')}" target="_blank" rel="noopener">Enquire on WhatsApp</a>`
+          : `<span class="p-enquire disabled">Currently Unavailable</span>`}
+      </div>
+    </div>
+  `;
+  }).join('');
+}
+
+let currentFilter = 'all';
+function setFilter(f){
+  currentFilter = f;
+  document.querySelectorAll('.chip').forEach(c => c.classList.toggle('active', c.dataset.chip === f));
+  document.querySelectorAll('.p-card').forEach(card => {
+    const cat = card.dataset.cat, badge = card.dataset.badge;
+    let show = true;
+    if(f === 'all'){ show = true; }
+    else if(f === 'new'){ show = badge === 'New'; }
+    else if(f === 'Best Seller'){ show = badge === 'Best Seller'; }
+    else { show = cat === f; }
+    card.classList.toggle('hidden', !show);
+  });
+  document.getElementById('collections').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function toggleMobileNav(){
+  document.getElementById('hamburger').classList.toggle('open');
+  document.getElementById('mobilePanel').classList.toggle('show');
+}
+function closeMobileNav(){
+  document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('mobilePanel').classList.remove('show');
+}
+
+let toastTimer;
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> t.classList.remove('show'), 3200);
+}
+
+function handleNewsletter(e){
+  e.preventDefault();
+  document.getElementById('nlMsg').textContent = "Thanks for joining — email delivery isn't wired up in this preview yet.";
+  document.getElementById('nlEmail').value = '';
+  return false;
+}
+function handleContact(e){
+  e.preventDefault();
+  document.getElementById('contactMsg').textContent = "Thanks for reaching out — this form isn't connected yet. Message us on WhatsApp for a reply today.";
+  e.target.reset();
+  return false;
+}
+
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('is-visible'); io.unobserve(e.target); } });
+}, {threshold:0.12});
+revealEls.forEach(el=>io.observe(el));
+
+renderProducts();
+</script>
+
+</body>
+</html>
