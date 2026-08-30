@@ -97,6 +97,36 @@ header.site-nav{ position:sticky; top:0; z-index:80; background:rgba(250,246,236
 .p-card.hidden{ display:none; }
 .p-thumb{ aspect-ratio:4/5; background:linear-gradient(160deg,var(--beige-2),var(--beige)); position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; }
 .p-thumb svg{ width:50%; height:50%; color:var(--gold); }
+  .p-thumb img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+.image-placeholder{
+  display:none;
+  width:100%;
+  height:100%;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:1rem;
+  color:var(--ink-soft);
+  font-size:0.75rem;
+  background:var(--beige-2);
+}
+.image-placeholder{
+  display:none;
+  width:100%;
+  height:100%;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:1rem;
+  color:var(--ink-soft);
+  font-size:0.75rem;
+  background:var(--beige-2);
+}
 .p-thumb .sketch-tag{ position:absolute; bottom:0.55rem; left:0.55rem; font-size:0.54rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-soft); background:rgba(250,246,236,0.85); padding:0.26rem 0.5rem; }
 .p-badge{ position:absolute; top:0.65rem; left:0.65rem; font-size:0.58rem; letter-spacing:0.1em; text-transform:uppercase; font-weight:700; padding:0.3rem 0.55rem; background:var(--ink); color:var(--cream); z-index:2; }
 .p-badge.new{ background:var(--gold); color:var(--ink); }
