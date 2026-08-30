@@ -381,6 +381,43 @@ footer{ background:var(--paper); border-top:1px solid var(--line-soft); padding-
       <div class="rev-card"><div class="rev-stars">★★★★★</div><p>"Ordered on WhatsApp, had it delivered same evening. The kind of service that makes you a regular."</p><div class="rev-name">Kunle B.</div></div>
       <div class="rev-card"><div class="rev-stars">★★★★★</div><p>"The weekender bag is even better in person — gold hardware, real weight to it. Worth every naira."</p><div class="rev-name">Ifeoma A.</div></div>
     </div>
+    </div>
+
+    <div style="max-width:600px;margin:2rem auto 0;padding:1.5rem;background:var(--cream);border:1px solid var(--line-soft);">
+      <p class="eyebrow">Share Your Experience</p>
+      <h3 style="font-size:1.5rem;margin:0.4rem 0 1rem;">Leave a Review</h3>
+
+      <form id="reviewForm">
+        <div class="form-group">
+          <label for="reviewName">Your Name</label>
+          <input id="reviewName" type="text" required placeholder="Your name">
+        </div>
+
+        <div class="form-group">
+          <label for="reviewRating">Rating</label>
+          <select id="reviewRating" required style="width:100%;padding:0.85rem 1rem;border:1px solid var(--line-soft);background:var(--paper);">
+            <option value="">Choose a rating</option>
+            <option value="5">★★★★★ — Excellent</option>
+            <option value="4">★★★★☆ — Very Good</option>
+            <option value="3">★★★☆☆ — Good</option>
+            <option value="2">★★☆☆☆ — Fair</option>
+            <option value="1">★☆☆☆☆ — Poor</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="reviewText">Your Review</label>
+          <textarea id="reviewText" rows="4" required placeholder="Tell us about your experience"></textarea>
+        </div>
+
+        <button class="btn btn-dark" type="submit" style="width:100%;">
+          Submit Review
+        </button>
+
+        <p id="reviewMessage" class="contact-msg"></p>
+      </form>
+    </div>
+
   </div>
 </section>
 
