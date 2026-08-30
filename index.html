@@ -614,7 +614,48 @@ function handleContact(e){
   e.target.reset();
   return false;
 }
+document.getElementById('reviewForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
 
+  const name = document.getElementById('reviewName').value.trim();
+  const rating = Number(document.getElementById('reviewRating').value);
+  const review = document.getElementById('reviewText').value.trim();
+  const message = document.getElementById('reviewMessage');
+
+  if (!name || !rating || !review) {
+    message.textContent = 'Please fill in all fields.';
+    return;
+  }
+
+  message.textContent = 'Submitting your review...';
+
+  try {
+    const response = await fetch('https://ambrose-reviews-api.uxmangee.workers.dev/api/reviews', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: name,
+        rating: rating,
+        review: review
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to submit review');
+    }
+
+    message.textContent = 'Thank you! Your review has been submitted.';
+    document.getElementById('reviewForm').reset();
+
+  } catch (error) {
+    console.error(error);
+    message.textContent = 'Something went wrong. Please try again.';
+  }
+});
 const revealEls = document.querySelectorAll('.reveal');
 const io = new IntersectionObserver((entries)=>{
   entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('is-visible'); io.unobserve(e.target); } });
